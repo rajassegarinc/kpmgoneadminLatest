@@ -1,0 +1,257 @@
+<!--POPUP STARTS-->
+<section class="kpmg-one-popup-wrapper" style="display: none;">
+  <section class="kpmg-one-popup-panel">
+      <section class="kpmg-one-popup">
+          <a class="fa fa-close kpmg-one-popup-close" title="Close"></a>
+          <h3>Classification Levels</h3>
+          <div class="popup_content_scroller" id="content_scroller">
+          <p>For the purposes of this document, the functions of processing, storing or transmitting information will be referred to simply as ‘handling’. The standard identifies four discrete levels of information system classification. These are named DC0 through DC3 and can broadly be described as follows:</p>
+            <ul>
+              <li>
+                  <h4>DC0</h4>
+                    <p>Systems that handle information that is made generally available to the public</p>
+                    <!-- <a class="kpmg-one-txt-link" title="More">more...</a> -->
+                </li>
+                <li>
+                  <h4>DC1</h4>
+                    <p>Systems that handle information that is made generally available to KPMG personnel</p>
+                    <!-- <a class="kpmg-one-txt-link" title="More">more...</a> -->
+                </li>
+                <li>
+                  <h4>DC2</h4>
+                    <p>
+                        Systems that handle sensitive information that is restricted based on group or individual access and need to know
+                    </p>
+                    <!-- <a class="kpmg-one-txt-link" title="More">more...</a> -->
+                </li>
+                <li>
+                  <h4>DC3</h4>
+                    <p>Systems that handle extremely sensitive information that is restricted based on individual access and a need to know.</p>
+                    <!-- <a class="kpmg-one-txt-link" title="More">more...</a> -->
+                </li>
+            </ul>
+            <div class="description_panel">
+                    <ul>
+                        <li>
+                            <h4>DC0 -KPMG Public - Description</h4>
+
+                            <p>
+                                This classification applies to systems handling information intended for publication outside of KPMG to the general public.
+                            </p>
+                            <p>
+                                Information systems classified at DC0 may be accessed and used by members of the public without restriction. Information systems classified as DC0 should include controls to ensure that formal prior approval is obtained for all material being designated for public dissemination.
+                            </p> 
+                            <h5>Examples / Comment</h5>                       
+                            <p>
+                                Much of this information is made available through the KPMG external Website www.kpmg.com, brochures, press releases or other media.
+                            </p>                            
+                        </li>
+                        <li>
+                            <h4>DC1- KPMG Internal - Description</h4>
+                                <p>
+                                    This classification applies to systems handling information generally available for KPMG internal use only. Information in systems classified as DC1 is not intended to be shared outside of KPMG (other than with explicit exceptions).
+                                </p>
+                                <p>
+                                    Access to DC1 information systems by all staff is anticipated. Information from within these systems may be shared with select approved external parties but only when necessary.
+                                </p>
+                                <h5>Examples / Comment</h5> 
+                                <p>Examples include material distributed in magazines, newsletters, directories, internal web pages (intranets, KWorld).
+                                </p>
+                            
+                        </li>
+                        <li>
+                            <h4>DC2- KPMG Confidential / Restricted - Description</h4>
+                            
+                                <p>
+                                    This classification applies to systems handling information that is considered sensitive and as a result is subject to restricted access.
+                                </p>
+                                <p>
+                                    Access to DC2 information systems should be restricted to discrete groups of users (or specific individuals who have a business need to access the information system. Such access should be controlled by appropriate authentication and authorization systems. Information systems may be restricted either by client relationship, position in the firm, by office etc. The primary control over restricted systems will be the competent management of user access rights based on the need-to-know and least privilege principles. By default, information within KPMG is assumed to require protection at the DC2 level.
+                                </p>
+                                <h5>Examples / Comment</h5> 
+                                <p>Information systems that store, process or transmit the work products from client engagements, information received by KPMG member firms from their clients, and KPMG proprietary information.</p>
+                                <p>Most human resource and payroll information systems would be restricted and classified as DC2.</p>
+                            
+                        </li>
+                        <li>
+                            <h4>DC3- KPMG Strictly Confidential - Description</h4>
+
+                                <p>
+                                    This classification applies to systems handling information that is highly sensitive; as a result access is restricted to uniquely identified individuals. This heightened sensitivity may result from business relationships or transactions, legal or regulatory requirements or the need for discretion in the conduct of KPMG’s internal business.
+                                </p>
+                                <p>
+                                    Access to DC3 information must be controlled through the rigorous management of user access rights.
+                                </p>
+                                <h5>Examples / Comment</h5> 
+                                <p>Engagements for certain government entities and those relating to highly sensitive transactions may fall into this classification.</p>
+                                <p>This classification should be used if the business owner determines that the information handled by the system requires a higher level of confidentiality control.
+                                </p>
+
+                        </li>
+                    </ul>
+
+            </div>
+        </div>
+        </section>
+    </section>
+</section>
+<!--POPUP ENDS-->
+
+    <!--HEADER STARTS-->
+    <header>
+        <figure><a href="#/" title="KPMG"><img src="theme/images/logo.png" alt="Logo"></a></figure>
+        <section class="header-rgt"> <!-- ng-if="appUserResponse.userType == 'BusinessAdmin'" -->
+            <aside class="kpmg-one-notifications-header" ng-show="notificationData" ng-if="appUserResponse.role == 'admin'">
+                <a title="Notifications" class="kpmg-one-notifications" ng-click="showNotification(isNotificationPopup)"></a>
+                <article class="kpmg-one-notification-panel arrow_up" ng-class="{active:isNotificationPopup}">
+                    <ul>
+                        <li class="kpmg-one-notification-legends">
+                            <aside ng-click="NotificationFilter('pending');">
+                                <span class="kpmg-one-nl-pending"></span>
+                                <span >Pending</span>
+                            </aside>
+                            <aside ng-click="NotificationFilter('approved')">
+                                <span class="kpmg-one-nl-approved"></span>
+                                <span>Approved</span>
+                            </aside>
+                            <aside ng-click="NotificationFilter('rejected')">
+                                <span class="kpmg-one-nl-rejected"></span>
+                                <span>Rejected</span>
+                            </aside>
+                        </li>
+                        <li class="kpmg-one-no-notification" ng-show="!notificationData">
+                            <aside><span class="kpmg-one-nl-pending"></span></aside>
+                            <aside>
+                                <a></a>
+                                <span>No records found</span>
+                            </aside>
+                        </li>
+
+                        <li class="kpmg-one-no-notification" ng-show="pendingNotificationRespError">
+                            <aside><span class="kpmg-one-nl-pending"></span></aside>
+                            <aside>
+                                <a></a>
+                                <span>No Pending records found</span>
+                            </aside>
+                        </li>
+                        <li ng-repeat="headNotePen in pendingNotificationResp" ng-show="!pendingNotificationRespError">
+                            <aside><span class="kpmg-one-nl-pending"></span></aside>
+                            <aside>
+                                <a ng-click="headerViewAppDetails(headNotePen,headNotePen.id,1)">{{headNotePen.appName}}</a>
+                                <span>{{headNotePen.appDesc}}</span>
+                            </aside>
+                        </li>
+                        <li class="kpmg-one-no-notification" ng-show="approvedNotificationRespError">
+                            <aside><span class="kpmg-one-nl-approved"></span></aside>
+                            <aside>
+                                <a></a>
+                                <span>No approved records found</span>
+                            </aside>
+                        </li>
+                        <li ng-repeat="headNoteAppr in approvedNotificationResp" ng-show="!approvedNotificationRespError">
+                            <aside><span class="kpmg-one-nl-approved"></span></aside>
+                            <aside>
+                                <a ng-click="headerViewAppDetails(headNoteAppr,headNoteAppr.id,2)">{{headNoteAppr.appName}}</a>
+                                <span>{{headNoteAppr.appDesc}}</span>
+                            </aside>
+                        </li>
+                        <li class="kpmg-one-no-notification" ng-show="rejectNotificationRespError">
+                            <aside><span></span></aside>
+                            <aside>
+                                <span>No rejected records found</span>
+                            </aside>
+                        </li>
+                        <li ng-repeat="headNoteRej in rejectNotificationResp" ng-show="!rejectNotificationRespError">
+                            <aside><span></span></aside>
+                            <aside>
+                                <a ng-click="headerViewAppDetails(headNoteRej,headNoteRej.id,3)">{{headNoteRej.appName}}</a>
+                                <span>{{headNoteRej.appDesc}}</span>
+                            </aside>
+                        </li>
+                    </ul>
+                </article>
+            </aside>
+            <aside class="update-cdt">
+                <label>Welcome</label>
+                <span>{{userName.firstName}}, {{userName.lastName}}</span>
+            </aside>
+            <img src="theme/images/welcome.png">
+        </section>
+    </header>
+    <!--HEADER ENDS-->
+
+    <!--TAB NAVIGATION STARTS-->
+    <section class="kpmg-one-tab-panel">
+        <nav>
+            <ul ng-if="appUserResponse.role == 'super admin'">
+                <li><a class="kpmg-one-tab-link-approvals" href="#appApprovals" title="Approvals" ng-class="{active:isActive('/appApprovals') || isActive('/viewAppDetails') }">Approvals</a></li>
+                <li><a class="kpmg-one-tab-link-appadmins" href="#appAdmin" title="App Admins" ng-class="{active:isActive('/appAdmin')}">App Admins</a></li>
+                <li><a class="kpmg-one-tab-link-onboard"  href="#onboardingsubmit" title="Onboarding Apps" ng-class="{active:isActive('/onboardingsubmit')}">Onboarding Apps</a></li>
+                <!-- <li><a class="kpmg-one-tab-link-notifications" href="#notifications"title="Notifications"  ng-class="{active:isActive('/notifications')}">Notifications</a></li>
+                <li><a class="kpmg-one-tab-link-analytics" href="#analytics" title="Analytics" ng-class="{active:isActive('/analytics')}">Analytics</a></li> -->
+                <li><a class="kpmg-one-tab-link-adhoc" href="#adhoc" title="Adhoc Notification" ng-class="{active:isActive('/adhoc') || isActive('/failedNotification')}">Adhoc Notifications</a></li>
+            </ul>
+            <ul ng-if="appUserResponse.role == 'admin'">
+                <li><a class="kpmg-one-tab-link-onboard" href="#onboardingsubmit" title="Onboarding Apps" ng-class="{active:isActive('/onboardingsubmit')}">Onboarding Apps</a></li>
+                <li><a class="kpmg-one-tab-link-adhoc" href="#adhoc" title="Adhoc Notification" ng-class="{active:isActive('/adhoc') || isActive('/failedNotification') }">Adhoc Notifications</a></li>
+            </ul>
+        </nav>    
+    </section>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Please provide network/user Id</h4>
+      </div>
+      <div class="modal-body">
+      <form ng-submit="getRoles()">
+        <label style="display:inline-block;">Network Id : &nbsp;&nbsp;</label>
+        <input ng-model='networkId' type='text' name='networkId' style="float:none;" >
+     </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id='getRolesButton' class="btn btn-primary" ng-click="getRoles()">Submit</button>
+        <p id='loadingPleaseWait' style="display:none;">Please wait...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="IEOLD" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="IEOLDTitle">Browser Version Not Supported </h4>
+      </div>
+      <div class="modal-body">
+      <p>Your browser version is not supported, You have to either upgrade IE version (10 or greater) or move to Chrome.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div id="loaderHead" ng-show="isLoadingHead">
+    &nbsp;
+</div>
+
+
+    <!--TAB NAVIGATION ENDS -->
+
+    <script type="text/javascript">
+$(document).ready(function(){ 
+    $( "#datepicker" ).datepicker();
+    $(".kpmg-one-selectbox").selectbox();
+
+    $(".kpmg-one-info").click(function(){
+      $('.kpmg-one-popup-wrapper').show();
+    });
+
+    $(".kpmg-one-popup-wrapper a.kpmg-one-popup-close").click(function(){
+      $('.kpmg-one-popup-wrapper').hide();
+    });
+    $('#content_scroller').mCustomScrollbar();
+  });
+</script>

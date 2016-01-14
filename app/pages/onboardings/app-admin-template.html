@@ -1,0 +1,37 @@
+﻿<!--TAB2 STARTS-->
+<section class="kpmg-one-tab-content kpmg-one-tab-content-appadmins">
+    <!--<h1>App Admins</h1>-->
+    <section class="kpmg-one-alpha-container">
+        <section class="kpmg-one-alpha-order-sort">
+            <ul>
+                <li ng-repeat="alphabet in alphabetCollection"><a ng-click="getAppAdmin(alphabet)" ng-class="{ kpmgOneAlphaActive: isCurrentAlphabhet('{{alphabet}}') }">{{alphabet | uppercase }}</a></li>
+                
+            </ul>
+        </section>
+    </section>
+    <ul class="kpmg-one-app-admins-panel">
+        <li ng-repeat="appAdminDetail in appAdminDetailsResp">
+            <a>{{mySplit(appAdminDetail.userName,0)}} - <b>{{mySplit(appAdminDetail.userName,1)}}</b></a>
+            <aside ng-repeat="appDet in appAdminDetail.apps">
+                <span>{{appDet.appName}}</span>
+                <p>{{appDet.appDesc}}</p>
+                <ul class="kpmg-one-app-status">
+                    <li class="{{appDet.isOnborded == 1 ? '':'deactive'}}">Onboarded</li>
+                    <li class="{{appDet.isNotification == 1 ? '':'deactive'}}">Notification</li>
+                    <li class="{{appDet.isAnalytic == 1 ? '':'deactive'}}">Analytics</li>
+                    <li class="{{appDet.isAdhoc == 1 ? '':'deactive'}}">Adhoc Notification</li>
+                </ul>
+            </aside>
+        </li>
+        <li ng-if="appAdminDetailsResp.length <= 0 || !appAdminDetailsResp">
+            <aside>
+                <span>No Records Found</span>
+            </aside>
+        </li>
+    </ul>
+</section>
+<!--TAB2 ENDS-->
+
+<div id="loader" ng-show="isLoading">
+    &nbsp;
+</div>

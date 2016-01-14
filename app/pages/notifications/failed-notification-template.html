@@ -1,0 +1,49 @@
+﻿        <section class="kpmg-one-alert-failed-adhoc-note-panel">
+            <a class="kpmg-one-txt-link fa fa-angle-left" title="Back to Previous Screen" href='#adhoc'>
+                &nbsp;Back to Previous Screen
+            </a> 
+            <!--TAB2 STARTS-->
+            <section class="kpmg-one-tab-content kpmg-one-tab-content-appadmins"> 
+            
+            <!--TAB2 STARTS-->
+            
+                <h1>Failed Adhoc Notifications</h1>
+                 <article>
+                    <aside>
+                        <a title="Notification Title"> {{failedNotification.messagetitle}}</a>
+                        <span>{{failedNotification.timestamp}}</span>
+                    </aside>
+                    <aside><P>{{failedNotification.messagedetails}}</P></aside>
+                </article>
+                <ul class="kpmg-one-app-admins-panel kpmg-one-failed-adhoc-note-block">
+        <li>
+            <aside>
+                <ul class="kpmg-one-app-status kpmg-one-app-status-failed">
+                    <li>USERS NOT REGISTERED IN CNE</li>
+                    <a title="Export to Excel" ng-click="exportData(failedNotification.notificationfaileduserlist.nonRegisteredUserIds,failedNotification.messagetitle)"></a>
+                </ul>
+                <p id="non_registered">
+                    {{failedNotification.notificationfaileduserlist.nonRegisteredUserIds.join(', ')}}
+                    <a href="" ng-click="copyDataToClipboard(failedNotification.notificationfaileduserlist.nonRegisteredUserIds)">Copy</a>
+                </p>
+            </aside>
+        </li>
+        <li>
+            <aside>
+                <ul class="kpmg-one-app-status kpmg-one-app-status-failed">
+                    <li>USERS WHO TURNED OFF PUSH NOTIFICATION</li>
+                    <a title="Export to Excel" ng-click="exportData(failedNotification.notificationfaileduserlist.registeredUserIds, failedNotification.messagetitle)"></a>
+                </ul>
+                <p id="registered">{{failedNotification.notificationfaileduserlist.registeredUserIds.join(', ')}}
+                    <a href="" ng-click="copyDataToClipboard(failedNotification.notificationfaileduserlist.registeredUserIds)">Copy</a>
+                </p>
+            </aside>
+        </li>
+    </ul>
+</section></section>
+<div id="loader" ng-show="isLoading">
+    &nbsp;
+</div>
+            <!--TAB2 ENDS-->
+
+

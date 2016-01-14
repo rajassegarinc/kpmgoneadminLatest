@@ -1,0 +1,218 @@
+<!--TAB3 STARTS-->
+  <section class="kpmg-one-tab-content kpmg-one-tab-content-onboard">
+      <h1>Onboarding App</h1>
+        <form  method="POST" id="uploadbutton" enctype="multipart/form-data" name="submitOnboardingForm" novalidate>
+          <input type="hidden" name="userId" ng-model="userId" />
+          <input type="hidden" name="labelId" ng-model="labelId" />
+          <ul class="kpmg-one-tab-content-col">
+              <li class="kpmg-one-multi-col3">
+                  <label>Application Name</label>
+                  <input tabindex=1 type="text" name="applName" ng-model='applName' required ng-disabled='is_disabled_form' maxlength="50">
+                  <p ng-show="(submitOnboardingForm.applName.$error.required && isvalid_form_error) || (submitOnboardingForm.applName.$error.required && submitOnboardingForm.applName.$dirty)" class="form-error">Field is required. </p>
+              </li>
+              <li class="kpmg-one-multi-col3">
+                  <label>Application Icon</label> 
+                  <input tabindex=2 type="text"  placeholder="120 x 120"  ng-disabled='true' ng-model="submitOnboardingForm.appIcon2x.$modelValue.name" id='dummy2x'>
+                  <label title="Browse" class="custom-upload button">
+                  <input type="file" ngf-select ng-model="appIcon2x" id="app2Icon" name="appIcon2x" accept="image/*" required ng-disabled='is_disabled_form'>Browse</label>
+                  <p ng-show="(submitOnboardingForm.appIcon2x.$error.required && isvalid_form_error) || (submitOnboardingForm.appIcon2x.$error.required && submitOnboardingForm.appIcon2x.$dirty)" class="form-error">Field is required</p>
+                  <p ng-show="submitOnboardingForm.appIcon2x.$valid" class="form-error">
+                    <span ng-show="appIcon2xError">Invalid file.</span></p>
+              </li>
+              <li class="kpmg-one-multi-col3">
+                  <label>Application Icon</label>
+                  <input tabindex=3 type="text"  placeholder="180x180" ng-disabled='true' ng-model="submitOnboardingForm.appIcon3x.$modelValue.name" id='dummy3x'>
+                  <label title="Browse" class="custom-upload button">
+                  <input type="file" ngf-select ng-model="appIcon3x" id="app3Icon" name="appIcon3x" accept="image/*" required ng-disabled='is_disabled_form'>Browse</label>
+                  <p ng-show="(submitOnboardingForm.appIcon3x.$error.required && isvalid_form_error) || (submitOnboardingForm.appIcon3x.$error.required && submitOnboardingForm.appIcon3x.$dirty)" class="form-error">Field is required</p>
+                 <p ng-show="submitOnboardingForm.appIcon3x.$valid" class="form-error">
+                    <span ng-show="appIcon3xError">Invalid file.</span>
+                </p>
+              </li>
+              <li>
+                  <label>Description</label>
+                  <textarea tabindex=4 name="appDesc" maxlength="500" class="validate" ng-model='appDesc' required ng-disabled='is_disabled_form'></textarea>
+                  <p class="form-error" ng-show="appDesc.length>499">
+                    Description can not be more than 500 characters
+                  </p>
+                  <p ng-show="(submitOnboardingForm.appDesc.$error.required && isvalid_form_error) || (submitOnboardingForm.appDesc.$error.required && submitOnboardingForm.appDesc.$dirty)" class="form-error">Field is required. </p>
+              </li>
+              <li>
+                  <label>Type</label>
+                  <aside>
+                      <input tabindex=5 type="radio" id="type-app" name="isAppTypes" ng-model="isAppTypes" class="css3radio" value="Application" required />
+                      <label class="kpmg-one-form-field-value" for="type-app">Application</label>
+                  </aside>
+                  <aside>
+                      <input tabindex=6 type="radio" id="mobile-web" name="isAppTypes" ng-model="isAppTypes" class="css3radio" value="Mobile web" required />
+                      <label class="kpmg-one-form-field-value" for="mobile-web">Mobile web</label>
+                  </aside> 
+                  <p ng-show="submitOnboardingForm.isAppTypes.$error.required && isvalid_form_error" class="form-error"> Field is required. </p>
+              </li>
+              <li class="kpmg-one-multi-col" ng-show="isAppTypes == 'Application' ">
+                  <label>APP ID</label>
+                  <input  tabindex="7"  maxlength="50" type="text" name='appId' ng-model="appId"  ng-required ="isAppTypes != 'Mobile web' " ng-disabled='is_disabled_form'>
+                  <p ng-show="(submitOnboardingForm.appId.$error.required && isvalid_form_error) || (submitOnboardingForm.appId.$error.required && submitOnboardingForm.appId.$dirty)" class="form-error">Field is required. </p>
+              </li>
+              <li class="kpmg-one-multi-col">
+                  <label>URL</label>
+                  <input  tabindex="8"  maxlength="50" type="text" name='mobSchema' ng-model="mobSchema"  required ng-disabled='is_disabled_form'>
+                  <p ng-show="(submitOnboardingForm.mobSchema.$error.required && isvalid_form_error) || (submitOnboardingForm.mobSchema.$error.required && submitOnboardingForm.mobSchema.$dirty)" class="form-error">Field is required. </p>
+              </li>
+              <li>
+                  <label tabindex="9">Avaliable at Apps @ Work</label>
+                  <aside>
+                      <input  type="radio" id="avail-yes" name="isAvailApp" ng-model="isAvailApp" class="css3radio" value="1" required/>
+                      <label class="kpmg-one-form-field-value" for="avail-yes">Yes</label>
+                  </aside>
+                  <aside>
+                      <input type="radio" id="avail-no" name="isAvailApp" ng-model="isAvailApp" class="css3radio" value="0" required />
+                      <label class="kpmg-one-form-field-value" for="avail-no">No</label>
+                  </aside> 
+                  <p ng-show="submitOnboardingForm.isAvailApp.$error.required && isvalid_form_error" class="form-error"> Field is required. </p>                       
+              </li>
+              <li ng-show="isAvailApp == 0 ">
+                  <label>Go-Live Date</label>
+                  <input tabindex="11" type="text"  readonly="true"  placeholder="MM/DD/YY HH:MM" id="datepickerTimePicker"  name='goLiveDate' ng-model='goLiveDate' ng-disabled='is_disabled_form' ng-required = "isAvailApp != 1 " ><span class="kpmg-one-calImg">
+                  <a class="kpmg-one-live-date" title="Date Picker" id="btn_datepickerTimePicker"></a>
+
+                  <p ng-show="(submitOnboardingForm.goLiveDate.$error.required && isvalid_form_error) || (submitOnboardingForm.goLiveDate.$error.required && submitOnboardingForm.goLiveDate.$dirty)" class="form-error"> Field is required. </p>  
+                  <p ng-show="submitOnboardingForm.goLiveDate.$error.pattern" class="form-error">
+                        Please enter a valid date format. ex: YYYY-MM-DD HH:mm:ss
+                    </p>
+              </li>
+              <li class="kpmg-one-multi-col">
+                  <label>Category</label>
+                  <aside class="kpmg-one-selectdd">
+                      <select tabindex="12" class="kpmg-one-selectbox" name="category" ng-init="category='Advisory'" ng-model='category' id="category" required ng-disabled='is_disabled_form'>
+                          <!--<option value="" selected="">Select</option>-->
+                          <option value="Advisory" ng-selected="true">Advisory</option>
+                          <option value="Business Intelligence">Business Intelligence</option>
+                          <option value="Collaboration">Collaboration</option>
+                          <option value="Productivity">Productivity</option>
+                          <option value="Risk Apps">Risk Apps</option>
+                          <option value="Tax">Tax</option>
+                          <option value="Utilities">Utilities</option>
+                      </select>
+                  </aside>
+                  <p ng-show="(submitOnboardingForm.category.$error.required && isvalid_form_error) || (submitOnboardingForm.category.$error.required && submitOnboardingForm.category.$dirty)" class="form-error">
+                Field is required. </p>
+              </li>
+              <li class="kpmg-one-multi-col">
+                  <label>Security</label>
+                  <aside class="kpmg-one-selectdd">
+                      <select tabindex="13" class="kpmg-one-selectbox" name="appSecurity" ng-init="appSecurity='Advisory'" ng-model="appSecurity" id="appSecurity" required ng-disabled='is_disabled_form'>
+                          <!--<option value="" selected="">Select</option>-->
+                          <option value="DC0" ng-selected="true">DC 0</option>
+                          <option value="DC1">DC 1</option>
+                          <option value="DC2">DC 2</option>
+                          <option value="DC3">DC 3</option>
+                      </select>
+                  </aside>
+                  <a class="kpmg-one-info" title="Info"></a>
+                  <p ng-show="(submitOnboardingForm.appSecurity.$error.required && isvalid_form_error) || (submitOnboardingForm.appSecurity.$error.required && submitOnboardingForm.appSecurity.$dirty)" class="form-error">Field is required. </p>
+              </li>
+          </ul>
+          <ul class="kpmg-one-app-status kpmg-one-app-status-form">
+              <li>
+                <input tabindex="14" type="checkbox" id="kpmg-one-note" name="notification" ng-model="notification" ng-true-value="1" ng-false-value="0">
+                <label for="kpmg-one-note">Notification</label>
+              </li>
+          </ul>
+          
+          <ul>
+               <li class="kpmg-one-panel-btn">
+                  <button class="btn btn_disable" title="Cancel" type="button" ng-click="resetFormOnSucess('clearData')">Cancel</button>
+                  <button class="btn btn_green" title="Submit" type="button" data-ng-click="submitRequest(submitOnboardingForm)">Submit</button>
+              </li>
+          </ul>
+      </form>
+
+  </section>
+<!--TAB3 ENDS-->
+
+<div id="loader" ng-show="isLoading">
+    &nbsp;
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+   // $( "#datepicker" ).datepicker();
+    $(".kpmg-one-selectbox").selectbox();
+
+    $(".kpmg-one-info").click(function(){
+      $('.kpmg-one-popup-wrapper').show();
+    });
+
+    $(".kpmg-one-popup-wrapper a.kpmg-one-popup-close").click(function(){
+      $('.kpmg-one-popup-wrapper').hide();
+    });
+
+    Date.parseDate = function( input, format ){
+  return moment(input,format).toDate();
+};
+Date.prototype.dateFormat = function( format ){
+  return moment(this).format(format);
+};
+
+    /*
+        allowedTimes array obj.
+        created array for allowed times using in datetimepicker
+    */
+    var allowedTimes= [];
+    var dt_h=0, dt_m;
+
+    for(var i=0, x=0;  i<24; i += 1) {        
+        for (j = 0; j < 60; j += 5) {
+            dt_h = (i < 10 ? '0' : '') + i;
+            dt_m = (j < 10 ? '0' : '') + j;
+            var hm = dt_h+':'+dt_m;
+           allowedTimes.push(hm);
+        }
+    }
+
+    $('#datepickerTimePicker').datetimepicker({
+        validateOnBlur:true,
+        format:'MM/DD/YY HH:mm',
+        formatTime:'HH:mm',
+        formatDate:'MM/DD/YY',
+        allowTimes: allowedTimes,
+        onShow:function( current_time, $input ){
+            this.setOptions({
+                minDate: 0,
+                minTime: new Date(),
+                onSelectDate:function(current_time, $input){
+                    var currentDate = new Date();
+                    currentDate = currentDate.dateFormat('MM/DD/YY');
+                    var selectedDate = $input.val(),    
+                    delimiter = ' ',
+                    start = 0,
+                    end = 3,
+                    tokens = selectedDate.split(delimiter).slice(start, end),
+                    splitDate = tokens[0];
+
+                    if (splitDate === currentDate)
+                    {
+                    this.setOptions(
+                    {
+                    minTime: new Date()
+                    });
+                    }
+                    else
+                    {
+                    this.setOptions(
+                    {
+                    minTime: false
+                    });
+                    }
+                }
+            })
+        }
+    });
+
+    $('#btn_datepickerTimePicker').click(function(){
+        $('#datepickerTimePicker').datetimepicker('show'); 
+    });
+
+  });
+</script>

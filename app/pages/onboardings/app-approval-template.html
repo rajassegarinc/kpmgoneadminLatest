@@ -1,0 +1,88 @@
+﻿<!--ALERT BOX STARTS-->
+<section class="kpmg-one-alert kpmg-one-alert-warning kpmg-one-alert-no-requests" ng-show='(approvalResponse.pending.length <= 0 && approvalResponse.approved.length <= 0 && approvalResponse.rejected.length <= 0) || !approvalResponse'>
+   <!--  <a class="fa fa-close" title="Close"></a> -->
+    <p>There are no Requests...</p>
+</section>
+<!--ALERT BOX ENDS-->
+<section class="kpmg-one-approvals-accordian" ng-show='approvalResponse.pending.length > 0 || approvalResponse.approved.length > 0 || approvalResponse.rejected.length > 0'>
+  <ul class="kpmg-one-approvals-accordian-tab">
+        <li>
+          <a class="kpmg-one-approvals-accordian-tab-pending-appr kpmg-one-approvals-accordian-tab-panel active" title="Pending Approvals">Pending Approvals</a>
+        </li>
+        <aside>
+            <ul class="kpmg-one-approvals-accordian-tab-content">
+                <li ng-repeat="pending in approvalResponse.pending" ng-if="approvalResponse.pending.length >0">
+                    <h5 ng-click="viewAppDetails(pending,1)">{{pending.appName}}</h5>
+                    <p>{{pending.appDesc}}</p>
+                    <a class="fa fa-angle-right" ng-click="viewAppDetails(pending,1)"></a>
+                </li>
+                <li ng-if="approvalResponse.pending.length <= 0">
+                    <p>There is no pending records</p>
+                </li>
+            </ul>
+        </aside>
+        <li>
+          <a class="kpmg-one-approvals-accordian-tab-approved-apps kpmg-one-approvals-accordian-tab-panel" title="Approved Apps">Approved Apps</a>
+        </li>
+        <aside>
+            <ul class="kpmg-one-approvals-accordian-tab-content kpmg-one-approvals-accordian-tab-content-approved-aaps">
+                <li ng-repeat="appr in approvalResponse.approved" ng-if="approvalResponse.approved.length > 0">
+                    <h5 ng-click="viewAppDetails(appr,2)">{{appr.appName}}</h5>
+                    <p>{{appr.appDesc}}</p>
+                    <a class="fa fa-angle-right" ng-click="viewAppDetails(appr,2)"></a>
+                </li>
+                <li ng-if="approvalResponse.approved.length <= 0">
+                    <p>There is no Approved records</p>
+                </li>
+            </ul>
+        </aside>
+        <li>
+          <a class="kpmg-one-approvals-accordian-tab-rejected-apps kpmg-one-approvals-accordian-tab-panel" title="Rejected Apps">Rejected Apps</a>
+        </li>
+        <aside>
+            <ul class="kpmg-one-approvals-accordian-tab-content kpmg-one-approvals-accordian-tab-content-rejected-aaps">
+                <li ng-repeat="rej in approvalResponse.rejected" ng-if="approvalResponse.rejected.length > 0">
+                    <h5 ng-click="viewAppDetails(rej,3)">{{rej.appName}}</h5>
+                    <p>{{rej.appDesc}}</p>
+                    <a class="fa fa-angle-right" ng-click="viewAppDetails(rej,3)"></a>
+                </li>
+                <li ng-if="approvalResponse.rejected.length <= 0">
+                    <p>There is no Rejected records</p>
+                </li>
+            </ul>
+        </aside>
+    </ul>
+</section>
+
+<div id="loader" ng-show="isLoading">
+    &nbsp;
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $(".kpmg-one-approvals-accordian-tab li a.kpmg-one-approvals-accordian-tab-pending-appr").click(function(){
+    $(this).addClass('active');
+    $('.kpmg-one-approvals-accordian-tab-approved-apps').removeClass('active');
+    $('.kpmg-one-approvals-accordian-tab-rejected-apps').removeClass('active');
+      $('.kpmg-one-approvals-accordian-tab-content').show();
+    $('.kpmg-one-approvals-accordian-tab-content-approved-aaps').hide();
+    $('.kpmg-one-approvals-accordian-tab-content-rejected-aaps').hide();
+    });
+  $(".kpmg-one-approvals-accordian-tab li a.kpmg-one-approvals-accordian-tab-approved-apps").click(function(){ 
+    $(this).addClass('active');
+    $('.kpmg-one-approvals-accordian-tab-pending-appr').removeClass('active');
+    $('.kpmg-one-approvals-accordian-tab-rejected-apps').removeClass('active');
+      $('.kpmg-one-approvals-accordian-tab-content').hide();
+    $('.kpmg-one-approvals-accordian-tab-content-approved-aaps').show();
+    $('.kpmg-one-approvals-accordian-tab-content-rejected-aaps').hide();
+    });
+  $(".kpmg-one-approvals-accordian-tab li a.kpmg-one-approvals-accordian-tab-rejected-apps").click(function(){   
+    $(this).addClass('active');
+    $('.kpmg-one-approvals-accordian-tab-pending-appr').removeClass('active');
+    $('.kpmg-one-approvals-accordian-tab-approved-apps').removeClass('active');
+      $('.kpmg-one-approvals-accordian-tab-content').hide();
+    $('.kpmg-one-approvals-accordian-tab-content-approved-aaps').hide();
+    $('.kpmg-one-approvals-accordian-tab-content-rejected-aaps').show();
+    });
+});
+</script>

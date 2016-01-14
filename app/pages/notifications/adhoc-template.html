@@ -1,0 +1,288 @@
+﻿<section class="kpmg-one-tab-content kpmg-one-tab-content-adhoc">
+    <h1>Adhoc Notification</h1>
+    <section class="kpmg-one-adhoc-left-sec">
+        <form novalidate name="adhocNotication" ng-submit="adhocNotication.$valid && submitRequest()">
+            <ul class="kpmg-one-tab-content-col">
+                <li>
+                    <label>Subject</label>
+                    <input type="text" ng-model="notificationSubject" name="notificationSubject" placeholder="Subject" required  maxlength="150" ngMaxlength=50>
+                    <p ng-show="(adhocNotication.notificationSubject.$error.required && adhocNotication.notificationSubject.$dirty) || (adhocNotication.notificationSubject.$error.required && formNotValid)" class="form-error">
+                        Field is required.
+                    </p>
+                </li>
+                 <li>
+                    <label>Message</label>
+                    <textarea id="messageTxtBox" maxlength="150" placeholder="Notification Message" ng-model="notificationMessage" 
+                    name="notificationMessage" required></textarea>
+                    <p ng-show="(adhocNotication.notificationMessage.$error.required && adhocNotication.notificationMessage.$dirty) || (adhocNotication.notificationMessage.$error.required && formNotValid)" class="form-error">
+                        Field is required.
+                    </p>
+                </li>
+                <li class="kpmg-one-date">
+                    <label>Date & Time</label>
+                    <input type="text" placeholder="MM/DD/YY HH:MM" id="datepickerTimePicker" 
+                    ng-model="notificationGoLiveDate" name="notificationGoLiveDate" readonly="true" 
+                   required ng-required="true"> 
+                      <a class="kpmg-one-date-picker" title="Date Picker" id="btn_datepickerTimePicker"></a> 
+                    <p ng-show="(adhocNotication.notificationGoLiveDate.$error.required && adhocNotication.notificationGoLiveDate.$dirty) || (adhocNotication.notificationGoLiveDate.$error.required && formNotValid)" 
+                    class="form-error">
+                        Field is required. 
+                    </p>
+                </li>
+                <li class="adhoc-member-list">
+                    <label>Members List</label>                   
+                    <oi-select 
+                        oi-options="userId.id for userId in getAllUserIds($query) | orderBy: 'userId.id' track by userId.id"
+                        oi-select-options="{debounce: 200}" 
+                        ng-model="notificationMembersList" name="notificationMembersList" 
+                        multiple="multiple" placeholder="Select" required ng-required="true">
+                    </oi-select>                  
+                    <p class="form-error" ng-show="isEmpty">No record found</p>
+                    <p ng-show="(adhocNotication.notificationMembersList.$error.required && adhocNotication.notificationMembersList.$dirty) || (adhocNotication.notificationMembersList.$error.required && formNotValid)" class="form-error">
+                        Field is required.
+                    </p>
+                </li>
+                <li>
+                    <input class="btn btn_default" 
+                    ng-click="clearRequestForm()" 
+                    title="Reset" type="button" value="Cancel" />
+
+                    <input class="btn btn_process" 
+                    ng-click="isValid(adhocNotication)" 
+                    ng-disabled="adhocNotication.$pristine" 
+                    title="Send" type="submit" value="Send" />
+                </li>
+            </ul>
+        </form>
+    </section>
+    <section class="kpmg-one-adhoc-right-sec">
+        <article>
+            <a class="kpmg-one-past-note" title="Past Notification" ng-click="getPastNotifications()">
+                <span>Past Notifications</span>
+            </a>
+            <a class="kpmg-one-up-note active" title="Upcoming Notification" ng-click="getFutureNotifications()">
+                <span>Upcoming Notifications</span>
+            </a>
+             <div id="notification_list_wrapper" class="notification_list_wrapper"> 
+                <ul class="kpmg-one-note-tab kpmg-one-up-note-tab">
+                    <li class="no-data-message" ng-show="futureNotifications.length==0 && isLoading==false">
+                        No Upcoming Notifications
+                    </li>
+                    <li ng-repeat="fn in futureNotifications">
+                        <aside>
+                            <h3 ng-click="editNotification(fn.notificationid, 'future',$event)">{{fn.messagetitle}}</h3>
+                            <aside>{{fn.timestamp | moment:'format': 'MMM Do, YYYY hh:mm A' }}</aside>
+                            <span>{{ fn.messagedetails | limitTo: 30 }}{{fn.messagedetails.length > 30 ? '...' : ''}}
+                            </span>
+                        </aside>
+                        <aside>
+                            <a class="kpmg-one-note-delete fa fa-trash" title="Delete" 
+
+                            ng-click="confirmDelete(fn.notificationid, $index, 'future')"></a>
+                            <a href="javascript:void(0)" class="kpmg-one-note-edit fa fa-edit" title="Edit" 
+                            ng-click="editNotification(fn.notificationid, 'future',$event)"></a>
+                        </aside>
+                    </li>
+                </ul>
+                <ul class="kpmg-one-note-tab kpmg-one-past-note-tab">
+                    <li class="no-data-message" ng-show="pastNotifications.length==0 && isLoading==false">
+                        No Past Notifications
+                    </li>
+                    <li ng-repeat="pn in pastNotifications | limitTo: 10"  ng-class="{'kpmg-one-failed-notification': pn.notificationfaileduserlist.registeredUserIds.length>0, 'kpmg-one-failed-notification': pn.notificationfaileduserlist.nonRegisteredUserIds.length>0}">
+                        <aside class="failenotificationfaileduserlistdNotification" ng-if="pn.notificationfaileduserlist.registeredUserIds.length>0 || pn.notificationfaileduserlist.nonRegisteredUserIds.length>0" ng-click="showFailedNotifications(pn.notificationid)">
+                            <span>Failed Notification</span>
+                            <span>
+                                {{pn.notificationfaileduserlist.registeredUserIds.length+pn.notificationfaileduserlist.nonRegisteredUserIds.length}}
+                            </span>
+                        </aside>
+                        <aside>
+                            <h3 ng-click="editNotification(pn.notificationid, 'past',$event)">{{pn.messagetitle}}</h3>
+                            <aside>{{pn.timestamp | moment:'format': 'MMM Do, YYYY hh:mm A'}}</aside>
+                            <span>{{ pn.messagedetails | limitTo: 30 }}{{pn.messagedetails.length > 30 ? '...' : ''}} 
+                            </span>
+                        </aside>
+                        <aside>
+                            <!-- <a class="kpmg-one-note-delete fa fa-trash" title="Delete" 
+                            ng-click="deleteNotification(pn.notificationid, $index, 'past')"></a> -->
+                            <a href="javascript:void(0)" class="kpmg-one-note-edit fa fa-edit" title="Edit" 
+                            ng-click="editNotification(pn.notificationid, 'past',$event)"></a>
+                        </aside>
+                    </li>
+                </ul>
+             </div> 
+        </article>
+    </section>
+</section>
+<!--TAB6 ENDS-->
+
+<div class="modal fade" id="popup_adhoc_delete_notification" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Delete Notification</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this notification?</p>
+      </div>
+      <div class="modal-footer">
+        <input type="button" class="btn btn_default" data-dismiss="modal" value="Cancel" />
+        <input type="button" class="btn btn-primary" ng-click="confirmed()" value="Delete" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="loader" ng-show="isLoading">
+    &nbsp;
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+    $(".kpmg-one-past-note").click(function(){
+        $('.kpmg-one-past-note-tab').show();
+        $('.kpmg-one-up-note-tab').hide();
+        $(this).addClass('active'); 
+        $('.kpmg-one-up-note').removeClass('active');
+    });
+    $(".kpmg-one-up-note").click(function(){
+        $('.kpmg-one-past-note-tab').hide();
+        $('.kpmg-one-up-note-tab').show();
+        $(this).addClass('active'); 
+        $('.kpmg-one-past-note').removeClass('active');
+    });
+        $(".kpmg-one-selectbox").selectbox();
+    Date.parseDate = function( input, format ){
+      return moment(input,format).toDate();
+    };
+    Date.prototype.dateFormat = function( format ){
+      return moment(this).format(format);
+    };
+
+    /*
+        allowedTimes array obj.
+        created array for allowed times using in datetimepicker
+    */
+    var allowedTimes= [];
+    var dt_h=0, dt_m;
+
+    for(var i=0, x=0;  i<24; i += 1) {        
+        for (j = 0; j < 60; j += 5) {
+            dt_h = (i < 10 ? '0' : '') + i;
+            dt_m = (j < 10 ? '0' : '') + j;
+            var hm = dt_h+':'+dt_m;
+           allowedTimes.push(hm);
+        }
+    }
+
+    $('#datepickerTimePicker').datetimepicker({
+        validateOnBlur:true,
+        format:'MM/DD/YY HH:mm',
+        formatTime:'HH:mm',
+        formatDate:'MM/DD/YY',
+        allowTimes:allowedTimes,
+        onShow:function( current_time, $input ){
+            this.setOptions({
+                minDate: 0,
+                minTime: new Date(),
+                onSelectDate:function(current_time, $input){
+                    var currentDate = new Date();
+                    currentDate = currentDate.dateFormat('MM/DD/YY');
+                    var currentDateTime = new Date();
+                    currentDateTime = currentDateTime.dateFormat('MM/DD/YY HH:mm');
+                    var selectedDate = $input.val(),    
+                    delimiter = ' ',
+                    start = 0,
+                    end = 3,
+                    tokens = selectedDate.split(delimiter).slice(start, end),
+                    splitDate = tokens[0];
+                    if (splitDate === currentDate)
+                    {
+                    $('#datepickerTimePicker').datetimepicker('setDate', (new Date()));
+                    $input.val(currentDateTime);
+                    this.setOptions(
+                    {
+                    minTime: new Date()
+                    });
+                    }
+                    else
+                    {
+                    this.setOptions(
+                    {
+                    minTime: false
+                    });
+                    }
+                }
+            })
+        }
+    });
+
+    $('#btn_datepickerTimePicker').click(function(){
+        $('#datepickerTimePicker').datetimepicker('show'); 
+    });
+    $('.notification_list_wrapper').mCustomScrollbar();
+});
+    
+
+
+
+</script>
+
+<!--             
+<section class="kpmg-one-add-content">
+      <section class="formpanel">
+        <h2>ADHOC</h2>
+        <label class="formpanel-switch">Forced Push Notification
+            <input type="checkbox" name="checkboxName"  ng-model="forced_push_notification" class="checkbox"/>
+            <div class="switch"></div>
+            </label>
+        <form name="adhocForm" method="POST" enctype="multipart/form-data" novalidate>
+          <ul>
+            <li>
+              <label>Message</label>
+              <textarea placeholder="Text" name="adhoc_message" ng-model="adhoc_message" required></textarea>
+                <p ng-show="(adhocForm.adhoc_message.$error.required && isvalid_form_error) || (adhocForm.adhoc_message.$error.required && adhocForm.adhoc_message.$dirty)" class="form-error">
+                Field is required. </p>
+            </li>
+          </ul>
+          <ul>
+            <li>
+              <label>Source ID</label>
+              <input type="text" name="secure_id" ng-model="secure_id" required>
+                <p ng-show="(adhocForm.secure_id.$error.required && isvalid_form_error) || (adhocForm.secure_id.$error.required && adhocForm.secure_id.$dirty)" class="form-error">
+                Field is required. </p>
+            </li>
+          </ul>
+          <ul class="kpmg-one-over-int">
+            <li>
+              <label>Members List</label>
+
+                  <ui-select multiple tagging="tagTransform" ng-model="multipleDemo.selectedPeople" theme="bootstrap" ng-disabled="disabled" style="width: 800px;" title="Choose a person">
+                    <ui-select-match placeholder="User ID 1,  User ID 2, User ID 3, User ID 4, User ID 5">{{$item.name}}</ui-select-match>
+                    <ui-select-choices repeat="person in admemberResponse | propsFilter: {name: $select.search, age: $select.search}">
+                      <div ng-if="person.isTag" ng-bind-html="person.name | highlight: $select.search"></div>
+                      <div ng-if="!person.isTag" ng-bind-html="person.name + person.isTag| highlight: $select.search"></div>
+                    </ui-select-choices>
+                  </ui-select>
+
+
+                <p ng-show="isvalid_form_error" class="form-error">Field is required. </p>
+            </li>
+          </ul>
+          <button class="btn btn_green btn_left" title="SUBMIT" data-ng-click="submitNotification(adhocForm)" type="button">submit</button>
+          <div class="upload-file">
+            <a href="#">Upload only excel file</a>
+          </div>
+        </form>
+      </section>
+    </section>
+
+
+<script>
+$(document).ready(function(){
+  $('.switch').click(function(){
+    $(this).toggleClass("switchOn");
+  });
+});
+</script> 

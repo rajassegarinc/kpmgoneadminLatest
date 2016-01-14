@@ -1,0 +1,121 @@
+﻿<!--TAB1 STARTS-->
+<section class="kpmg-one-tab-content kpmg-one-tab-content-approvals">
+    <a class="kpmg-one-txt-link fa fa-angle-left" title="Back to Previous Screen" href='#appApprovals'>Back to Previous Screen</a>
+
+    <a class="kpmg-one-txt-link fa fa-edit pull-right" title="Edit App" href='#/editAppDetails?appId={{viewData.id}}' ng-if="viewData.status=='Approved' && viewData.userId == appUser.userId"></a>
+
+        <!--ALERT BOX STARTS-->
+        <section class="kpmg-one-alert kpmg-one-alert-danger" ng-show="showMSGPopup">
+            <a class="fa fa-close" title="Close"></a>
+            <aside>You have rejected the App request...</aside>
+            <p>{{rejectReason}}</p>
+        </section>
+        <!--ALERT BOX ENDS-->
+
+        <!--ALERT BOX STARTS-->
+        <section class="kpmg-one-alert kpmg-one-alert-success" ng-show="showApprovedMSGPopup">
+            <a class="fa fa-close" title="Close"></a>
+            <aside>App has been Onboarded...</aside>
+            <article>Your App Key is : {{approvalResponse.appkey}}</article>
+            <section class="kpmg-one-alert-app-status">
+                <ul class="kpmg-one-app-status">
+                    <li class="{{applicationData.isOnborded == 1 ? '':'deactive'}}">Onboarded</li>
+                    <li class="{{applicationData.isNotification == 1 ? '':'deactive'}}">Notification</li>
+                    <li class="{{applicationData.isAnalytic == 1 ? '':'deactive'}}">Analytics</li>
+                    <li class="{{applicationData.isAdhoc == 1 ? '':'deactive'}}">Adhoc Notification</li>
+                </ul>
+            </section>
+        </section>
+        <!--ALERT BOX ENDS-->
+
+    <h1>Onboarding {{viewData.appName}}</h1>
+    <ul class="kpmg-one-tab-content-col">
+        <li>
+            <label>App Type :</label>
+            <aside>{{viewData.appType}}</aside>
+        </li>
+        <li>
+            <label>Web URL :</label>
+            <aside><a class="kpmg-one-txt-link" title="KPMG">{{viewData.deeplnk}}</a></aside>
+        </li>
+        <li>
+            <label class="kpmg-one-img-field">Application Icon :</label>
+            <figure><img ng-src="{{viewData.appIcon2X}}" alt="KPMG"></figure>
+ <figure><img ng-src="{{viewData.appIcon3X}}" alt="KPMG"></figure>
+        </li>
+        <li>
+            <label>App Description :</label>
+            <aside class="kpmg-one-textarea-content">{{viewData.appDesc}}</aside>
+        </li>
+        <li ng-if="viewData.labelId">
+            <label>App ID :</label>
+            <aside>{{viewData.labelId}}</aside>
+        </li>
+        <li ng-if="viewData.goLiveDate">
+            <label>Go-Live Date :</label>
+            <aside>{{viewData.goLiveDate}}</aside>
+        </li>
+        <li>
+            <label>Category :</label>
+            <aside>{{viewData.category}}</aside>
+        </li>
+        <li>
+            <label>Security :</label>
+            <aside>{{viewData.security}}</aside>
+        </li>
+    </ul>
+    <ul class="kpmg-one-app-status">
+        <li class="{{viewData.isOnborded == 1 ? '':'deactive'}}">Onboarded</li>
+        <li class="{{viewData.isNotification == 1 ? '':'deactive'}}">Notification</li>
+        <li class="{{viewData.isAnalytic == 1 ? '':'deactive'}}">Analytics</li>
+        <li class="{{viewData.isAdhoc == 1 ? '':'deactive'}}">Adhoc Notification</li>
+    </ul>
+
+    <ul ng-if="viewData.status == 'Pending'">
+         <li class="kpmg-one-panel-btn" ng-if="approvalResponse.status != 'success' ">
+            <button class="btn btn_green" title="Approve" type="button" ng-click="submitApprove(viewData)">Approve</button>
+            <button class="btn btn_decline" title="Reject" type="button" ng-click="submitReject(viewData)">Reject</button>
+        </li>
+    </ul>
+</section>
+<!--TAB1 ENDS-->
+
+<!--POPUP STARTS-->
+<section class="kpmg-one-popup-wrapper kpmg-one-popup-wrapper-rejection" ng-if="IsReject">
+    <section class="kpmg-one-popup-panel">
+        <section class="kpmg-one-popup">
+            <form  method="POST" enctype="multipart/form-data" name="rejectReasonForm" novalidate>
+            <a class="fa fa-close kpmg-one-popup-close" title="Close" ng-click="closeRejectPopup()"></a>
+            <h3 class="kpmg-one-no-border">Reason for Rejection</h3>
+                    <input type="hidden" name="appId" value="{{viewData.id}}"> 
+                  <textarea name="rejectDesc" ng-model='rejectDesc' required></textarea>
+                  <p ng-show="(rejectReasonForm.rejectDesc.$error.required && rejectFormValidationError) || (rejectReasonForm.rejectDesc.$error.required && rejectReasonForm.rejectDesc.$dirty)" class="form-error">Field is required. </p>
+            <span class="kpmg-one-popup-btn-panel">
+                <button class="btn btn_green" title="Submit" type="button" ng-click="confirmReject(rejectReasonForm, viewData)">Submit</button>
+            </span>
+            </form>
+        </section>
+    </section>
+</section>
+<!--POPUP ENDS-->
+<div id="loader" ng-show="isLoading">
+    &nbsp;
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".kpmg-one-alert a").click(function(){
+        $('.kpmg-one-alert').hide();
+    });
+});
+</script>
+<!--POPUP STARTS-->
+<!-- <section class="kpmg-one-popup-wrapper" ng-show="showMSGPopup">
+    <section class="kpmg-one-popup-panel">
+        <section class="kpmg-one-popup">
+            <a class="fa fa-close kpmg-one-popup-close" title="Close" ng-click="closeMsgPopup()"></a>
+            <p>{{successMsg}}</p>
+        </section>
+    </section>
+</section> -->
+<!--POPUP ENDS
