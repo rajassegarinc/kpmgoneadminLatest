@@ -26,6 +26,7 @@
         $scope.failedNotificationList = [];
         $scope.isLoading = true;
         $scope.isEmpty = false;
+        $scope.allpastNotifications = [];
 
         var response = angular.fromJson(sessionStorage.getItem('userRoles'));
         if(response) {
@@ -72,13 +73,21 @@
            $scope.adhocNotication.$setUntouched();
         };
 
-$('#messageTxtBox').keypress(function(){
-    var messageText =$(this).val();
-     if(messageText.length > 149){
-        $('#toast-container').remove();
-    logger.logError("Cannot exceed 150 characters.");
-    }
-});
+        $('#messageTxtBox').keypress(function(){
+            var messageText =$(this).val();
+             if(messageText.length > 149){
+                $('#toast-container').remove();
+            logger.logError("Message cannot exceed 150 characters.");
+            }
+        });
+
+        $('#mynotificationSubject').keypress(function(){
+            var messageText = $(this).val();
+             if(messageText.length > 49){
+                $('#toast-container').remove();
+                logger.logError("Subject cannot exceed 50 characters.");
+            }
+        });
         //console.log($scope.createNotificationFilter);
         $scope.submitRequest = function() {
             if($scope.isUpdate) {
@@ -250,17 +259,29 @@ $('#messageTxtBox').keypress(function(){
         };
 
         $scope.getPastNotifications = function() {
-            $scope.getAllNotificationFilter.type="past"
             $scope.isLoading = true;
+            $scope.getAllNotificationFilter.type="past";
             notificationService.getNotification($scope.getAllNotificationFilter).then(function(response) {
-               // if(response.data) {                    
                     $scope.pastNotifications = response.pastnotificationlist;
-                    //console.log($scope.pastNotifications);
                     $scope.isLoading = false;
-                    
-                //}       
             },function(response) {
-                //alert(response.status);
+                logger.logError("Error. No data");
+                $scope.isLoading = false;
+            }); 
+        };
+
+        $scope.getAllPastNotifications = function() {
+            $scope.isLoading = true;
+            $scope.getAllNotificationFilter.type="past";
+            notificationService.getNotification($scope.getAllNotificationFilter).then(function(response) {
+                    //$scope.allpastNotifications = angular.extend($scope.allpastNotifications, response.pastnotificationlist);
+                    //$scope.allpastNotifications = $scope.allpastNotifications + response.pastnotificationlist;
+                    $scope.allpastNotifications = $scope.allpastNotifications.concat(response.pastnotificationlist)
+                    $timeout(function() {
+                        $scope.isLoading = false;    
+                    }, 1000);
+                    
+            },function(response) {
                 logger.logError("Error. No data");
                 $scope.isLoading = false;
             }); 
@@ -268,7 +289,7 @@ $('#messageTxtBox').keypress(function(){
 
         $scope.getFutureNotifications = function() {
             $scope.isLoading = true;  
-            $scope.getAllNotificationFilter.type="future"
+            $scope.getAllNotificationFilter.type="future";
             notificationService.getNotification($scope.getAllNotificationFilter).then(function(response) {
                // if(response.data) {                    
                     $scope.futureNotifications = response.futurenotificationlist;       
@@ -485,3 +506,6 @@ $('#messageTxtBox').keypress(function(){
     notificationController.$inject = ["$rootScope", "$scope","$filter","$http", "Restangular", "$location", '$document', 'notificationService', '$q', '$timeout','logger'];
     angular.module("kpmgoneapp").controller("notificationController", notificationController);
 }());
+
+
+

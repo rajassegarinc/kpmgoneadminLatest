@@ -1,17 +1,18 @@
-﻿<section class="kpmg-one-tab-content kpmg-one-tab-content-adhoc">
+﻿
+<section class="kpmg-one-tab-content kpmg-one-tab-content-adhoc" id="myadhoc">
     <h1>Adhoc Notification</h1>
     <section class="kpmg-one-adhoc-left-sec">
         <form novalidate name="adhocNotication" ng-submit="adhocNotication.$valid && submitRequest()">
             <ul class="kpmg-one-tab-content-col">
                 <li>
-                    <label>Subject</label>
-                    <input type="text" ng-model="notificationSubject" name="notificationSubject" placeholder="Subject" required  maxlength="150" ngMaxlength=50>
+                    <label style="width:95%;">Subject <span style="float:right;font-size:11px;font-weight:normal;">(Max : 50 characters)</span> </label>
+                    <input type="text" ng-model="notificationSubject" id="mynotificationSubject" name="notificationSubject" placeholder="Subject" required  maxlength="50" ngMaxlength=50>
                     <p ng-show="(adhocNotication.notificationSubject.$error.required && adhocNotication.notificationSubject.$dirty) || (adhocNotication.notificationSubject.$error.required && formNotValid)" class="form-error">
                         Field is required.
                     </p>
                 </li>
                  <li>
-                    <label>Message</label>
+                    <label style="width:95%;">Message <span  style="float:right;font-size:11px;font-weight:normal;">(Max : 150 characters)</span> </label>
                     <textarea id="messageTxtBox" maxlength="150" placeholder="Notification Message" ng-model="notificationMessage" 
                     name="notificationMessage" required></textarea>
                     <p ng-show="(adhocNotication.notificationMessage.$error.required && adhocNotication.notificationMessage.$dirty) || (adhocNotication.notificationMessage.$error.required && formNotValid)" class="form-error">
@@ -45,7 +46,7 @@
                 <li>
                     <input class="btn btn_default" 
                     ng-click="clearRequestForm()" 
-                    title="Reset" type="button" value="Cancel" />
+                    title="Reset" type="button" value="Clear" />
 
                     <input class="btn btn_process" 
                     ng-click="isValid(adhocNotication)" 
@@ -65,7 +66,7 @@
             </a>
              <div id="notification_list_wrapper" class="notification_list_wrapper"> 
                 <ul class="kpmg-one-note-tab kpmg-one-up-note-tab">
-                    <li class="no-data-message" ng-show="futureNotifications.length==0 && isLoading==false">
+                    <li class="no-data-message" ng-show="futureNotifications.length==0">
                         No Upcoming Notifications
                     </li>
                     <li ng-repeat="fn in futureNotifications">
@@ -88,7 +89,7 @@
                     <li class="no-data-message" ng-show="pastNotifications.length==0 && isLoading==false">
                         No Past Notifications
                     </li>
-                    <li ng-repeat="pn in pastNotifications | limitTo: 10"  ng-class="{'kpmg-one-failed-notification': pn.notificationfaileduserlist.registeredUserIds.length>0, 'kpmg-one-failed-notification': pn.notificationfaileduserlist.nonRegisteredUserIds.length>0}">
+                    <li ng-repeat="pn in pastNotifications | limitTo: 10"  ng-class="{'kpmg-one-failed-notification': ( pn.notificationfaileduserlist.registeredUserIds.length>0 || pn.notificationfaileduserlist.nonRegisteredUserIds.length>0 ) }">
                         <aside class="failenotificationfaileduserlistdNotification" ng-if="pn.notificationfaileduserlist.registeredUserIds.length>0 || pn.notificationfaileduserlist.nonRegisteredUserIds.length>0" ng-click="showFailedNotifications(pn.notificationid)">
                             <span>Failed Notification</span>
                             <span>
@@ -103,11 +104,30 @@
                         </aside>
                         <aside>
                             <!-- <a class="kpmg-one-note-delete fa fa-trash" title="Delete" 
-                            ng-click="deleteNotification(pn.notificationid, $index, 'past')"></a> -->
+                            ng-click="deleteNotification(pn.notificationid, $index, 'past')"></a> 
                             <a href="javascript:void(0)" class="kpmg-one-note-edit fa fa-edit" title="Edit" 
-                            ng-click="editNotification(pn.notificationid, 'past',$event)"></a>
+                            ng-click="editNotification(pn.notificationid, 'past',$event)"></a>-->
                         </aside>
                     </li>
+
+
+                    <li ng-repeat="pns in allpastNotifications" >
+                        <aside>
+                            <h3 ng-click="editNotification(pn.notificationid, 'past',$event)">{{pns.messagetitle}}</h3>
+                            <aside>{{pns.timestamp | moment:'format': 'MMM Do, YYYY hh:mm A'}}</aside>
+                            <span>{{ pns.messagedetails | limitTo: 30 }}{{pns.messagedetails.length > 30 ? '...' : ''}} 
+                            </span>
+                        </aside>
+                        <aside>
+                            <!-- <a class="kpmg-one-note-delete fa fa-trash" title="Delete" 
+                            ng-click="deleteNotification(pn.notificationid, $index, 'past')"></a> -->
+                            <a href="javascript:void(0)" class="kpmg-one-note-edit fa fa-edit" title="Edit" 
+                            ng-click="editNotification(pns.notificationid, 'past',$event)"></a>
+                        </aside>
+                    </li>
+
+
+
                 </ul>
              </div> 
         </article>
@@ -140,6 +160,18 @@
 
 <script type="text/javascript">
 $(document).ready(function(){ 
+
+    function loadMoreRecords() {
+    var controllerElement = document.querySelector('#myadhoc');
+    console.log(controllerElement);
+    var scope = angular.element(controllerElement).scope();
+    console.log(scope);
+    scope.$apply(function () {
+        scope.summa();
+    });
+}
+
+
     $(".kpmg-one-past-note").click(function(){
         $('.kpmg-one-past-note-tab').show();
         $('.kpmg-one-up-note-tab').hide();
@@ -182,6 +214,11 @@ $(document).ready(function(){
         formatTime:'HH:mm',
         formatDate:'MM/DD/YY',
         allowTimes:allowedTimes,
+        onGenerate:function( ct ){
+            if($('#datepickerTimePicker').val() == '') {
+                jQuery(this).find('.xdsoft_disabled').last().next('div').toggleClass('xdsoft_current');
+            }
+          },
         onShow:function( current_time, $input ){
             this.setOptions({
                 minDate: 0,
@@ -200,7 +237,18 @@ $(document).ready(function(){
                     if (splitDate === currentDate)
                     {
                     $('#datepickerTimePicker').datetimepicker('setDate', (new Date()));
-                    $input.val(currentDateTime);
+                    if( $('.xdsoft_timepicker').find('.xdsoft_current') ) {
+                        var spilit = currentDateTime.split(' ');
+                        var sSplit = spilit[0] + ' ' + $('.xdsoft_timepicker').find('.xdsoft_current').html();
+                        $input.val(sSplit);
+                        $('.xdsoft_timepicker').find('.xdsoft_disabled').last().next('div').toggleClass('xdsoft_current');
+                        $('#datepickerTimePicker').datetimepicker('setDate', sSplit);
+                        $('#datepickerTimePicker').datetimepicker('hide');
+                        $('#datepickerTimePicker').datetimepicker('show');
+
+                    } else {
+                        $input.val(currentDateTime);
+                    }
                     this.setOptions(
                     {
                     minTime: new Date()
@@ -221,7 +269,14 @@ $(document).ready(function(){
     $('#btn_datepickerTimePicker').click(function(){
         $('#datepickerTimePicker').datetimepicker('show'); 
     });
-    $('.notification_list_wrapper').mCustomScrollbar();
+    $('.notification_list_wrapper').mCustomScrollbar({
+        callbacks:{
+            onTotalScroll:function(){
+              //loadMoreRecords();
+            }
+        }
+
+    });
 });
     
 
