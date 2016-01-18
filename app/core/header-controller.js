@@ -1,7 +1,7 @@
 (function() {
     "use strict";
 
-    var headerController = function($rootScope, $scope,  $location, headerService, onboardingService,logger) {
+    var headerController = function($rootScope, $scope,  $location, headerService, onboardingService,logger,$route) {
         $scope.isNotificationPopup = '';  
         $rootScope.userName=[];
         $scope.userLastName='';
@@ -252,6 +252,7 @@ $scope.appUsers = angular.fromJson(sessionStorage.getItem('postJsonData'));
             sessionStorage.setItem('apprData', JSON.stringify(appObj));
             sessionStorage.setItem('apprType', JSON.stringify(appType));
             $location.path("/editAppDetails").search('appId',appId);
+            $route.reload();
           };
 $(document).on("click", function (e) {
 
@@ -300,7 +301,7 @@ $(document).on("click", function (e) {
     };
 
 
-    headerController.$inject = ["$rootScope", "$scope","$location", "headerService", "onboardingService","logger"];
+    headerController.$inject = ["$rootScope", "$scope","$location", "headerService", "onboardingService","logger","$route"];
     angular.module("kpmgoneapp").controller("headerController", headerController);
 }());
 

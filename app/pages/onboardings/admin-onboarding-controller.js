@@ -194,13 +194,15 @@ $('#mobile-web').attr("disabled", true);
               var img = new Image();
               $scope.dummy2x = $('#app2Icon')[0].files[0].name;
               img.src = event.target.result;
-              if(img.width != 120 || img.height != 120 ) {
-                $scope.appIcon2xError = true;
-                $scope.$digest();
-              } else {
-                $scope.appIcon2xError = false;
-                $scope.$digest();                
-              }
+              img.onload = function(){ 
+	              if(img.width != 120 || img.height != 120 ) {
+	                $scope.appIcon2xError = true;
+	                $scope.$digest();
+	              } else {
+	                $scope.appIcon2xError = false;
+	                $scope.$digest();                
+	              }
+          	  };
           }
         });
 
@@ -213,14 +215,15 @@ $('#mobile-web').attr("disabled", true);
               var img = new Image();
               $scope.dummy3x = $('#app3Icon')[0].files[0].name;
               img.src = event.target.result;
-              if(img.width != 180 || img.height != 180 ) {
-                $scope.appIcon3xError = true;
-                $scope.$digest();
-              } else {
-
-                $scope.appIcon3xError = false;
-                $scope.$digest();                
-              }
+              img.onload = function(){ 
+	              if(img.width != 180 || img.height != 180 ) {
+	                $scope.appIcon3xError = true;
+	                $scope.$digest();
+	              } else {
+	                $scope.appIcon3xError = false;
+	                $scope.$digest();                
+	              }
+	          }
           }
         });
 
@@ -246,7 +249,6 @@ $('#mobile-web').attr("disabled", true);
 
           $scope.submitRequest = function (myform) {
             $scope.formUpload = true;
-
             if(myform.$valid == true ) {
               $scope.isLoading = true;
                 var serverUrl = rest.configuration.baseUrl+'/admin/UI/updateOnBoardApp';
