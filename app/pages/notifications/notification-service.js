@@ -12,6 +12,10 @@
       };
 
 
+      serviceApi.getAllNotification = function(filter){
+        return rest.one(dev.notifications.getAllNotificationList).customPOST(filter);
+      };
+
       serviceApi.getMemeberIds = function(query){
         var filter= {
           userId: query

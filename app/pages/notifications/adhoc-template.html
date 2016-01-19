@@ -89,8 +89,8 @@
                     <li class="no-data-message" ng-show="pastNotifications.length==0 && isLoading==false">
                         No Past Notifications
                     </li>
-                    <li ng-repeat="pn in pastNotifications | limitTo: 10"  ng-class="{'kpmg-one-failed-notification': ( pn.notificationfaileduserlist.registeredUserIds.length>0 || pn.notificationfaileduserlist.nonRegisteredUserIds.length>0 ) }">
-                        <aside class="failenotificationfaileduserlistdNotification" ng-if="pn.notificationfaileduserlist.registeredUserIds.length>0 || pn.notificationfaileduserlist.nonRegisteredUserIds.length>0" ng-click="showFailedNotifications(pn.notificationid)">
+                    <li ng-repeat="pn in pastNotifications" ng-class="{'kpmg-one-failed-notification': ( pn.notificationfaileduserlist.registeredUserIds.length>0 || pn.notificationfaileduserlist.nonRegisteredUserIds.length>0) && (pastOffset <= 0 && futureOffset <= 0)  }">
+                        <aside class="failenotificationfaileduserlistdNotification" ng-if="(pn.notificationfaileduserlist.registeredUserIds.length>0 || pn.notificationfaileduserlist.nonRegisteredUserIds.length>0) && (pastOffset <= 0 && futureOffset <= 0)" ng-click="showFailedNotifications(pn.notificationid)">
                             <span>Failed Notification</span>
                             <span>
                                 {{pn.notificationfaileduserlist.registeredUserIds.length+pn.notificationfaileduserlist.nonRegisteredUserIds.length}}
@@ -162,14 +162,12 @@
 $(document).ready(function(){ 
 
     function loadMoreRecords() {
-    var controllerElement = document.querySelector('#myadhoc');
-    console.log(controllerElement);
-    var scope = angular.element(controllerElement).scope();
-    console.log(scope);
-    scope.$apply(function () {
-        scope.summa();
-    });
-}
+        var controllerElement = document.querySelector('#myadhoc');
+        var scope = angular.element(controllerElement).scope();
+        scope.$apply(function () {
+            scope.getAllUsersNotifications('past');
+        });
+    }
 
 
     $(".kpmg-one-past-note").click(function(){
@@ -272,7 +270,7 @@ $(document).ready(function(){
     $('.notification_list_wrapper').mCustomScrollbar({
         callbacks:{
             onTotalScroll:function(){
-              //loadMoreRecords();
+              loadMoreRecords();
             }
         }
 

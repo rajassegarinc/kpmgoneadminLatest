@@ -211,9 +211,12 @@ li .kpmg-one-selectdd { float:left; }
 .kpmg-one-tab-content.kpmg-one-tab-content-approvals h1{clear:both}
 
 .kpmg-one-note-tab .kpmg-one-failed-notification h3, .kpmg-one-note-tab .kpmg-one-failed-notification aside, .kpmg-one-note-tab .kpmg-one-failed-notification span { color:#da2e00; }
-.kpmg-one-note-tab .kpmg-one-failed-notification > aside aside { opacity:0.3; cursor: pointer;}
+/*.kpmg-one-note-tab .kpmg-one-failed-notification > aside aside { opacity:0.3; cursor: pointer;}*/
 .kpmg-one-note-tab .kpmg-one-failed-notification span { opacity:0.6; }
 .kpmg-one-note-tab .kpmg-one-failed-notification h3 { opacity:0.85; }
+
+.kpmg-one-note-tab .kpmg-one-failed-notification aside:nth-child(2) { width: 90%};
+
 .kpmg-one-failed-notification > aside:first-child { display:block; clear:both; width:88%; margin-bottom:15px; margin-top:-5px; }
 .kpmg-one-failed-notification > aside:first-child span { opacity:1; margin-top:0; }
 .kpmg-one-failed-notification > aside:first-child > span:first-child { float:left; margin-right:15px; }
