@@ -64,25 +64,28 @@ $(document).ready(function(){
     $(this).addClass('active');
     $('.kpmg-one-approvals-accordian-tab-approved-apps').removeClass('active');
     $('.kpmg-one-approvals-accordian-tab-rejected-apps').removeClass('active');
-      $('.kpmg-one-approvals-accordian-tab-content').show();
+    $('.kpmg-one-approvals-accordian-tab-content').show();
     $('.kpmg-one-approvals-accordian-tab-content-approved-aaps').hide();
     $('.kpmg-one-approvals-accordian-tab-content-rejected-aaps').hide();
+    $('html,body').animate({scrollTop: 0});
     });
   $(".kpmg-one-approvals-accordian-tab li a.kpmg-one-approvals-accordian-tab-approved-apps").click(function(){ 
     $(this).addClass('active');
     $('.kpmg-one-approvals-accordian-tab-pending-appr').removeClass('active');
     $('.kpmg-one-approvals-accordian-tab-rejected-apps').removeClass('active');
-      $('.kpmg-one-approvals-accordian-tab-content').hide();
+    $('.kpmg-one-approvals-accordian-tab-content').hide();
     $('.kpmg-one-approvals-accordian-tab-content-approved-aaps').show();
     $('.kpmg-one-approvals-accordian-tab-content-rejected-aaps').hide();
+    $('html,body').animate({scrollTop: 0});
     });
   $(".kpmg-one-approvals-accordian-tab li a.kpmg-one-approvals-accordian-tab-rejected-apps").click(function(){   
     $(this).addClass('active');
     $('.kpmg-one-approvals-accordian-tab-pending-appr').removeClass('active');
     $('.kpmg-one-approvals-accordian-tab-approved-apps').removeClass('active');
-      $('.kpmg-one-approvals-accordian-tab-content').hide();
+    $('.kpmg-one-approvals-accordian-tab-content').hide();
     $('.kpmg-one-approvals-accordian-tab-content-approved-aaps').hide();
     $('.kpmg-one-approvals-accordian-tab-content-rejected-aaps').show();
+    $('html,body').animate({scrollTop: 0});
     });
 });
 </script>

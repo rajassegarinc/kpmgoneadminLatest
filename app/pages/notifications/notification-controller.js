@@ -64,7 +64,8 @@
             }
         }];
 
-        $scope.clearRequestForm = function() {            
+        $scope.clearRequestForm = function() {
+            $scope.isUpdate = false;            
             $scope.notificationSubject = '';
             $scope.notificationMessage = '';
             $scope.notificationGoLiveDate = '';
@@ -264,6 +265,7 @@
             notificationService.getNotification($scope.getAllNotificationFilter).then(function(response) {
                     $scope.pastNotifications = response.pastnotificationlist;
                     $scope.isLoading = false;
+                    $scope.clearRequestForm();
             },function(response) {
                 logger.logError("Error. No data");
                 $scope.isLoading = false;
@@ -293,7 +295,8 @@
             notificationService.getNotification($scope.getAllNotificationFilter).then(function(response) {
                // if(response.data) {                    
                     $scope.futureNotifications = response.futurenotificationlist;       
-                    $scope.isLoading = false;             
+                    $scope.isLoading = false;    
+                    $scope.clearRequestForm();         
                 //}       
             },function(response) {
                 //alert(response.status);
