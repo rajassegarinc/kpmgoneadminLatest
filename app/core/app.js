@@ -124,15 +124,16 @@
      // apiUrl: "https://lab-kpmgone-dev.us.kworld.kpmg.com/kpmg_one/v1.0/"
 
       //qa
-     apiUrl: "https://useomlxn00008.nix.us.kworld.kpmg.com:8443/kpmg_one/v1.0/"
+     //apiUrl: "https://useomlxn00008.nix.us.kworld.kpmg.com:8443/kpmg_one/v1.0/"
      // apiUrl: "http://useomlxn00008.nix.us.kworld.kpmg.com:8080/kpmg_one/v1.0/"
       
-      
+     //uat
+      //apiUrl:"https://useomlxu00019.nix.us.kworld.kpmg.com/kpmg_one/v1.0/"
 
       
       /*local api url*/
 
-      //apiUrl: "http://172.16.60.87:8080/KPMGRestful/v1.0/"
+      apiUrl: "http://172.16.60.87:8080/KPMGRestful/v1.0/"
       //apiUrl: "http://02502-dev.photoninfotech.com/kpmg_one/v1.0/"
       
     });
@@ -207,6 +208,7 @@
         },
         notifications: {
           getNotificationList: "adhocNotification/getNotifications",
+          getAllNotificationList: "adhocNotification/getAllNotifications",
           admemberlist: 'adServices/searchEmail',
           //admemberlist: 'mockJson/admember_list.json',
           createNotification: 'adhocNotification/create',

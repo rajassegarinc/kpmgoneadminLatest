@@ -27,6 +27,8 @@
         $scope.isLoading = true;
         $scope.isEmpty = false;
         $scope.allpastNotifications = [];
+        $scope.pastOffset = 0;
+        $scope.futureOffset = 0;
 
         var response = angular.fromJson(sessionStorage.getItem('userRoles'));
         if(response) {
@@ -36,6 +38,11 @@
             $scope.getAllNotificationFilter = {
                 userId: $scope._userId,
                 type: ''
+            }
+            $scope.getAllUsersNotificationFilter = {
+                userId: $scope._userId,
+                type: '',
+                limit:20
             }
         }
  $rootScope.getNotifs();
@@ -260,44 +267,66 @@
         };
 
         $scope.getPastNotifications = function() {
+            $scope.futureOffset = 0;
+            $scope.pastOffset = 0;
             $scope.isLoading = true;
             $scope.getAllNotificationFilter.type="past";
             notificationService.getNotification($scope.getAllNotificationFilter).then(function(response) {
                     $scope.pastNotifications = response.pastnotificationlist;
                     $scope.isLoading = false;
-                    $scope.clearRequestForm();
+	            $scope.clearRequestForm();
             },function(response) {
                 logger.logError("Error. No data");
                 $scope.isLoading = false;
             }); 
         };
 
-        $scope.getAllPastNotifications = function() {
+        $scope.getAllUsersNotifications = function(type) {
+            if($rootScope.appUserResponse.role != 'super admin') {
+                return false;
+            }
+            if( $( ".kpmg-one-past-note" ).hasClass( "active" ) ) {
+                type = 'past';
+            } else {
+                type = 'future';
+            }
             $scope.isLoading = true;
-            $scope.getAllNotificationFilter.type="past";
-            notificationService.getNotification($scope.getAllNotificationFilter).then(function(response) {
-                    //$scope.allpastNotifications = angular.extend($scope.allpastNotifications, response.pastnotificationlist);
-                    //$scope.allpastNotifications = $scope.allpastNotifications + response.pastnotificationlist;
-                    $scope.allpastNotifications = $scope.allpastNotifications.concat(response.pastnotificationlist)
+            $scope.getAllUsersNotificationFilter.type="past";
+            if(type === 'past') {
+                $scope.getAllUsersNotificationFilter.pastOffset = $scope.pastOffset;
+            } else {
+                $scope.getAllUsersNotificationFilter.futureOffset = $scope.futureOffset;
+            }   
+            notificationService.getAllNotification($scope.getAllUsersNotificationFilter).then(function(response) {
+                    if(type === 'past') {
+                        $scope.pastNotifications = $scope.pastNotifications.concat(response.pastnotificationlist);
+                        $scope.pastOffset = $scope.getAllUsersNotificationFilter.pastOffset + 20;
+                    } else {
+                        $scope.futureNotifications = $scope.futureNotifications.concat(response.futurenotificationlist);
+                        $scope.futureOffset = $scope.getAllUsersNotificationFilter.futureOffset + 20;
+                    }
+                    
                     $timeout(function() {
                         $scope.isLoading = false;    
                     }, 1000);
                     
             },function(response) {
-                logger.logError("Error. No data");
+                logger.logError("Looks like something went wrong. Please try again.");
                 $scope.isLoading = false;
             }); 
         };
 
         $scope.getFutureNotifications = function() {
+            $scope.futureOffset = 0;
+            $scope.pastOffset = 0;
             $scope.isLoading = true;  
             $scope.getAllNotificationFilter.type="future";
             notificationService.getNotification($scope.getAllNotificationFilter).then(function(response) {
                // if(response.data) {                    
                     $scope.futureNotifications = response.futurenotificationlist;       
-                    $scope.isLoading = false;    
-                    $scope.clearRequestForm();         
-                //}       
+                    $scope.isLoading = false;  
+	            $scope.clearRequestForm();
+               //}       
             },function(response) {
                 //alert(response.status);
                 $scope.isLoading = false;
