@@ -61,10 +61,10 @@
               </li>
               <li>
                   <label>Description</label>
-                  <textarea name="appDesc" class="validate" maxlength="500" ng-model='appDesc' required ng-disabled='is_disabled_form'></textarea>
-                  <p class="form-error" ng-show="appDesc.length>499">
+                  <textarea id="descp" name="appDesc" class="validate" maxlength="500" ng-model='appDesc' required ng-disabled='is_disabled_form'></textarea>
+                  <!--<p class="form-error" ng-show="appDesc.length>499">
                     Description can not be more than 500 characters
-                  </p>
+                  </p>-->
                   <p ng-show="(submitOnboardingForm.appDesc.$error.required && isvalid_form_error) || (submitOnboardingForm.appDesc.$error.required && submitOnboardingForm.appDesc.$dirty)" class="form-error">Field is required.</p>
               </li>
               <li>
@@ -90,7 +90,7 @@
                   <p ng-show="(submitOnboardingForm.mobSchema.$error.required && isvalid_form_error) || (submitOnboardingForm.mobSchema.$error.required && submitOnboardingForm.mobSchema.$dirty)" class="form-error">Field is required. </p>
               </li>
               <li>
-                  <label>Avaliable at Apps @ Work</label>
+                  <label>Available at Apps @ Work</label>
                   <aside>
                       <input type="radio" id="avail-yes" name="isAvailApp" ng-model="isAvailApp" class="css3radio" value="1" required/>
                       <label class="kpmg-one-form-field-value" for="avail-yes">Yes</label>

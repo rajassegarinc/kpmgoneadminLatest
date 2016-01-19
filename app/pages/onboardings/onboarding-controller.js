@@ -24,7 +24,17 @@
               }
             });
         };
- $rootScope.getNotifs();
+        
+        $rootScope.getNotifs();
+        $('#descp').keypress(function(){
+              var messageText =$(this).val();
+               if(messageText.length > 499){
+                  $('#toast-container').remove();
+              logger.logError("Description cannot exceed 500 characters.");
+              }
+        });
+
+
     $scope.appIcon2xError = false;
     $("#app2Icon").change(function () {
           var reader = new FileReader();

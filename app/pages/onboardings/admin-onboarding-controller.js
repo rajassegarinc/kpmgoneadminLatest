@@ -95,6 +95,14 @@ $('#mobile-web').attr("disabled", true);
             * method is used for copy text to clipboard
         */
         $scope.copyToClipBoardResponse = false;
+        $('#descp').keypress(function(){
+            var messageText =$(this).val();
+             if(messageText.length > 499){
+                $('#toast-container').remove();
+            logger.logError("Description cannot exceed 500 characters.");
+            }
+        });
+
         $scope.copyDataToClipboard =  function(data) {
            var copyFrom = document.createElement("textarea");
            copyFrom.textContent = data;
