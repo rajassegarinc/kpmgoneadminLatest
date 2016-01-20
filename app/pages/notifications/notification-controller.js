@@ -274,7 +274,10 @@
             notificationService.getNotification($scope.getAllNotificationFilter).then(function(response) {
                     $scope.pastNotifications = response.pastnotificationlist;
                     $scope.isLoading = false;
-	            $scope.clearRequestForm();
+	            	$scope.clearRequestForm();
+	            	if(response.pastnotificationlist.length <=5 && $rootScope.appUserResponse.role == 'super admin' ){
+	            		$scope.getAllUsersNotifications('past');
+	            	}
             },function(response) {
                 logger.logError("Error. No data");
                 $scope.isLoading = false;
@@ -291,7 +294,7 @@
                 type = 'future';
             }
             $scope.isLoading = true;
-            $scope.getAllUsersNotificationFilter.type="past";
+            $scope.getAllUsersNotificationFilter.type=type;
             if(type === 'past') {
                 $scope.getAllUsersNotificationFilter.pastOffset = $scope.pastOffset;
             } else {
@@ -322,11 +325,12 @@
             $scope.isLoading = true;  
             $scope.getAllNotificationFilter.type="future";
             notificationService.getNotification($scope.getAllNotificationFilter).then(function(response) {
-               // if(response.data) {                    
                     $scope.futureNotifications = response.futurenotificationlist;       
                     $scope.isLoading = false;  
-	            $scope.clearRequestForm();
-               //}       
+	            	$scope.clearRequestForm();
+	            	if(response.futurenotificationlist.length <=5 && $rootScope.appUserResponse.role == 'super admin' ){
+	            		$scope.getAllUsersNotifications('future');
+	            	}
             },function(response) {
                 //alert(response.status);
                 $scope.isLoading = false;
@@ -380,7 +384,7 @@
                 if($scope.editNotificationObj.userids.userIdList.length > 0) {
                     angular.forEach($scope.editNotificationObj.userids.userIdList, function(value, key) {
                         var obj = {};
-                        obj.id = value + '@kpmg.com';
+                        obj.id = value;
                         obj.category = 'userIdList';
                         totalObj.userIdList.push(obj);
                     });
@@ -452,7 +456,7 @@
                         if($scope.idLists.users.length > 0) {
                             angular.forEach($scope.idLists.users, function(value, key) {
                                var obj = {};
-                                obj.id = value + '@kpmg.com';
+                                obj.id = value;
                                 obj.category = 'userIdList';
                                 totalObj.userIdList.push(obj);
                             });

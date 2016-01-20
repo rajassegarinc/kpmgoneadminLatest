@@ -238,11 +238,15 @@ $(document).ready(function(){
                     if( $('.xdsoft_timepicker').find('.xdsoft_current') ) {
                         var spilit = currentDateTime.split(' ');
                         var sSplit = spilit[0] + ' ' + $('.xdsoft_timepicker').find('.xdsoft_current').html();
-                        $input.val(sSplit);
-                        $('.xdsoft_timepicker').find('.xdsoft_disabled').last().next('div').toggleClass('xdsoft_current');
-                        $('#datepickerTimePicker').datetimepicker('setDate', sSplit);
-                        $('#datepickerTimePicker').datetimepicker('hide');
-                        $('#datepickerTimePicker').datetimepicker('show');
+                        if($('.xdsoft_timepicker').find('.xdsoft_current').html() != '' && $('.xdsoft_timepicker').find('.xdsoft_current').html() != undefined) {
+                            $input.val(sSplit);
+                            $('.xdsoft_timepicker').find('.xdsoft_disabled').last().next('div').toggleClass('xdsoft_current');
+                            $('#datepickerTimePicker').datetimepicker('setDate', sSplit);
+                            $('#datepickerTimePicker').datetimepicker('hide');
+                            $('#datepickerTimePicker').datetimepicker('show');
+                        } else {
+                            $('#datepickerTimePicker').datetimepicker('setDate', (new Date()));
+                        }
 
                     } else {
                         $input.val(currentDateTime);
