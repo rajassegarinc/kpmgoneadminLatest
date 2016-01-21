@@ -332,6 +332,7 @@
 	            		$scope.getAllUsersNotifications('future');
 	            	}
             },function(response) {
+                $scope.clearRequestForm();
                 //alert(response.status);
                 $scope.isLoading = false;
                 logger.logError("Error. No data");
@@ -366,7 +367,7 @@
             if (found.length) {
                 $scope.notificationMembersList=[];
                 $scope.editNotificationObj = angular.copy(found[0]);
-                $scope.notificationSubject = $scope.editNotificationObj.messagetitle;
+                $scope.notificationSubject = $filter('trusted')($scope.editNotificationObj.messagetitle);
                 $scope.notificationMessage = $scope.editNotificationObj.messagedetails;
                 //$scope.notification.notificationGoLiveDate = $scope.editNotificationObj.timestamp;
                 $scope.notificationGoLiveDate = moment($scope.editNotificationObj.timestamp).format('MM/DD/YY HH:mm');

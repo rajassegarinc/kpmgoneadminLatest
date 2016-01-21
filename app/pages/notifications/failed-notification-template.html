@@ -1,6 +1,6 @@
 ﻿        <section class="kpmg-one-alert-failed-adhoc-note-panel">
             <a class="kpmg-one-txt-link fa fa-angle-left" title="Back to Previous Screen" href='#adhoc'>
-                &nbsp;Back to Previous Screen
+                &nbsp;Back to Previous Screen<br/><br/>
             </a> 
             <!--TAB2 STARTS-->
             <section class="kpmg-one-tab-content kpmg-one-tab-content-appadmins"> 
@@ -10,7 +10,7 @@
                 <h1>Failed Adhoc Notifications</h1>
                  <article>
                     <aside>
-                        <a title="Notification Title"> {{failedNotification.messagetitle}}</a>
+                        <a title="Notification Title"> {{failedNotification.messagetitle | trusted}}</a>
                         <span>{{failedNotification.timestamp}}</span>
                     </aside>
                     <aside><P>{{failedNotification.messagedetails}}</P></aside>

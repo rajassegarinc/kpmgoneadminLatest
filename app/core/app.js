@@ -17,6 +17,14 @@
       };
     });
 
+    myApp.filter('trusted', ['$sce', function($sce) {
+	    var div = document.createElement('div');
+	    return function(text) {
+	        div.innerHTML = text;
+	        return $sce.trustAsHtml(div.textContent);
+	    };
+	}])
+
 
 
     myApp.filter('propsFilter', function() {
@@ -128,12 +136,12 @@
      // apiUrl: "http://useomlxn00008.nix.us.kworld.kpmg.com:8080/kpmg_one/v1.0/"
       
      //uat
-      //apiUrl:"https://useomlxu00019.nix.us.kworld.kpmg.com/kpmg_one/v1.0/"
+      apiUrl:"https://useomlxu00019.nix.us.kworld.kpmg.com/kpmg_one/v1.0/"
 
       
       /*local api url*/
 
-      apiUrl: "http://172.16.60.87:8080/KPMGRestful/v1.0/"
+      //apiUrl: "http://172.16.60.87:8080/KPMGRestful/v1.0/"
       //apiUrl: "http://02502-dev.photoninfotech.com/kpmg_one/v1.0/"
       
     });
