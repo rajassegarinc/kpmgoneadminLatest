@@ -6,7 +6,7 @@
             <ul class="kpmg-one-tab-content-col">
                 <li>
                     <label style="width:95%;">Subject <span style="float:right;font-size:11px;font-weight:normal;">(Max : 50 characters)</span> </label>
-                    <input type="text" ng-model="notificationSubject" id="mynotificationSubject" name="notificationSubject" placeholder="Subject" required  maxlength="50" ngMaxlength=50>
+                    <input type="text"  ng-model="notificationSubject" id="mynotificationSubject" name="notificationSubject" placeholder="Subject" required  maxlength="50" ngMaxlength=50 >
                     <p ng-show="(adhocNotication.notificationSubject.$error.required && adhocNotication.notificationSubject.$dirty) || (adhocNotication.notificationSubject.$error.required && formNotValid)" class="form-error">
                         Field is required.
                     </p>
@@ -71,7 +71,7 @@
                     </li>
                     <li ng-repeat="fn in futureNotifications">
                         <aside>
-                            <h3 ng-click="editNotification(fn.notificationid, 'future',$event)">{{fn.messagetitle}}</h3>
+                            <h3 ng-click="editNotification(fn.notificationid, 'future',$event)">{{fn.messagetitle|trusted}}</h3>
                             <aside>{{fn.timestamp | moment:'format': 'MMM Do, YYYY hh:mm A' }}</aside>
                             <span>{{ fn.messagedetails | limitTo: 30 }}{{fn.messagedetails.length > 30 ? '...' : ''}}
                             </span>
@@ -97,7 +97,7 @@
                             </span>
                         </aside>
                         <aside>
-                            <h3 ng-click="editNotification(pn.notificationid, 'past',$event)">{{pn.messagetitle}}</h3>
+                            <h3 ng-click="editNotification(pn.notificationid, 'past',$event)">{{pn.messagetitle|trusted}}</h3>
                             <aside>{{pn.timestamp | moment:'format': 'MMM Do, YYYY hh:mm A'}}</aside>
                             <span>{{ pn.messagedetails | limitTo: 30 }}{{pn.messagedetails.length > 30 ? '...' : ''}} 
                             </span>
@@ -109,25 +109,6 @@
                             ng-click="editNotification(pn.notificationid, 'past',$event)"></a>-->
                         </aside>
                     </li>
-
-
-                    <li ng-repeat="pns in allpastNotifications" >
-                        <aside>
-                            <h3 ng-click="editNotification(pn.notificationid, 'past',$event)">{{pns.messagetitle}}</h3>
-                            <aside>{{pns.timestamp | moment:'format': 'MMM Do, YYYY hh:mm A'}}</aside>
-                            <span>{{ pns.messagedetails | limitTo: 30 }}{{pns.messagedetails.length > 30 ? '...' : ''}} 
-                            </span>
-                        </aside>
-                        <aside>
-                            <!-- <a class="kpmg-one-note-delete fa fa-trash" title="Delete" 
-                            ng-click="deleteNotification(pn.notificationid, $index, 'past')"></a> -->
-                            <a href="javascript:void(0)" class="kpmg-one-note-edit fa fa-edit" title="Edit" 
-                            ng-click="editNotification(pns.notificationid, 'past',$event)"></a>
-                        </aside>
-                    </li>
-
-
-
                 </ul>
              </div> 
         </article>
